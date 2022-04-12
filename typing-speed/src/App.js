@@ -36,9 +36,11 @@ function App() {
 
 
 
+  //test runner
   function startTest()
   {
 
+      //resets vars and interval and clears user input
       if(button === "Restart")
       {
           setButton("Start")
@@ -57,12 +59,15 @@ function App() {
           return;
       }
       else {
+          //setups text and focus users on text box
           setCorrectNum(0)
           setText(textGenerator())
           setButton('Restart')
           setRead(false)
           setRun(true)
           setCursor()
+
+          //timer
           let interval = setInterval(() => {
               setTimer((current) => {
                   if (current > 0) {
@@ -76,7 +81,9 @@ function App() {
                           setTimerClass("timerG")
                       }
                       return current - 1;
-                  } else {
+                  }
+                  //finish get results and displays
+                  else {
 
 
                       setRead(true)
@@ -101,6 +108,7 @@ function App() {
 
 
 
+  //this function focus users on textbox
   function setCursor()
   {
 
@@ -109,26 +117,32 @@ function App() {
 
   }
 
+  //checks the user input for buttons like back space
   function inputHandler ({keyCode, key})
   {
       let userWord = wordIn.split(" ");
 
+      //backspace
       if(keyCode === 8)
       {
 
+          //if at start of a word go back
           if(charInWord <= 0)
           {
+              //if user word is same size as actual
                 if(userWord[currWord-1].length === text[currWord-1].length)
                 {
                     setCharInWord(text[currWord-1].length -1)
                     setCurrWord(currWord-1)
                 }
+                //user word bigger than actual
                 else if(userWord[currWord-1].length > text[currWord-1].length)
                 {
                     setCharInWord
                     (text[currWord-1].length  +(userWord[currWord-1].length - text[currWord-1].length ))
                     setCurrWord(currWord-1)
                 }
+                //user word smaller than actual
                 else if(userWord[currWord-1].length < text[currWord-1].length)
                 {
                     setCharInWord
@@ -139,16 +153,14 @@ function App() {
           }
           else
           {
-
               setCharInWord(charInWord -1)
           }
 
 
       }
+      //space bar move to next word
       else if (keyCode === 32)
       {
-
-
 
          setCurrWord(currWord +1)
 
@@ -164,7 +176,7 @@ function App() {
   }
 
 
-
+    //compares the characters inputted to actually to color text as well as determine number of correct
   function charCompare( wordI, char,charI)
   {
       const userWord = wordIn.split(" ");
