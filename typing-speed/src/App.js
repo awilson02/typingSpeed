@@ -1,13 +1,14 @@
 
 import randomWords from 'random-words'
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import './App.css';
-import {render} from "react-dom";
+
 
 const words_num = 150
 const time = 60
 function App() {
 
+  const [button, setButton] = useState("Start")
   const [text, setText] = useState([])
   const [timer, setTimer] = useState([time])
   const [timerClass, setTimerClass] = useState("timerB")
@@ -16,7 +17,7 @@ function App() {
   const [correct, setCorrect ] = useState(Array(150))
   const [finished, setFinished] = useState(false)
   const [correctNum, setCorrectNum] = useState(0)
-
+  const [inter, setInter] = useState("")
 
   const [currWord, setCurrWord] = useState(0);
   const [charInWord, setCharInWord] = useState(0)
@@ -24,7 +25,7 @@ function App() {
   const [wordIn, setWordIn] = useState("")
 
 
-  const [valid, setvalid] = useState("unknown")
+
 
 
   function textGenerator ()
@@ -32,38 +33,46 @@ function App() {
       return new Array(words_num).fill(null).map(() => randomWords())
   }
 
-  useEffect(() =>
-  {
-    setText(textGenerator())
-  }, [])
+
 
 
   function startTest()
   {
-      if(finished)
-      {
-          setTimer(60)
-          setFinished(false)
-          setCorrect(0)
-          setWordIn("")
 
+      if(button === "Restart")
+      {
+          setButton("Start")
+          setText([])
+          setTimer(60)
+          setTimerClass("timerB")
+          setRead(true)
+          setRun(false)
+          setCorrect(Array(150))
+          setFinished(false)
+          setCorrectNum(0)
           setCharInWord(0)
           setCurrWord(0)
-          setText(textGenerator())
+          clearInterval(inter)
           document.querySelector("textarea").value=""
           return;
       }
       else {
+          setText(textGenerator())
+          setButton('Restart')
           setRead(false)
           setRun(true)
           setCursor()
-          const interval = setInterval(() => {
+          let interval = setInterval(() => {
               setTimer((current) => {
                   if (current > 0) {
                       if (current < 11) {
                           setTimerClass("timerRS")
                       } else if (current < 40) {
                           setTimerClass("timerY")
+                      }
+                      else
+                      {
+                          setTimerClass("timerG")
                       }
                       return current - 1;
                   } else {
@@ -80,6 +89,7 @@ function App() {
 
               })
           }, 1000)
+          setInter(interval)
       }
 
 
@@ -142,10 +152,10 @@ function App() {
   {
       const userWord = wordIn.split(" ");
 
-      if(wordI == currWord && charI == charInWord){
+      if(wordI === currWord && charI === charInWord){
           return"greenChar"
       }
-      else if( wordI < currWord)
+      else if( wordI < currWord || ( wordI === currWord && userWord[wordI] === text[wordI]))
       {
           if(text[wordI] === userWord[wordI])
           {
@@ -158,7 +168,7 @@ function App() {
               return "redChar"
           }
       }
-      else if(wordI == currWord && charI < charInWord )
+      else if(wordI === currWord && charI < charInWord )
       {
           if(userWord[wordI][charI] === text[wordI][charI])
           {
@@ -238,7 +248,7 @@ function App() {
                             { correctNum !==0 &&
                             (
                                 "Words per min = " + correctNum + " Accuracy = "
-                                + Math.round((correctNum/currWord)*10000)/100 + "%"
+                                + Math.round((correctNum/(currWord+1))*10000)/100 + "%"
                             )}
                         </div>
                     </div>
@@ -246,7 +256,7 @@ function App() {
         )}
         <div className="userInActive">
            <form>
-               <textarea spellCheck={"false"} readOnly={read} onKeyDown={inputHandler} onChange={(e) => setWordIn(e.target.value)}>
+               <textarea onpaste="return false;" spellCheck={"false"} readOnly={read} onKeyDown={inputHandler} onChange={(e) => setWordIn(e.target.value)}>
 
                </textarea>
            </form>
@@ -255,7 +265,7 @@ function App() {
         </div>
 
       <div className="section">
-          <button className="startButton" id="button" onClick={startTest}>Start</button>
+          <button className="startButton" id="button" onClick={startTest}>{button}</button>
 
       </div>
 
