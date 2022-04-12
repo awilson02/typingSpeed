@@ -277,7 +277,7 @@ function App() {
                                 { correctNum !==-1 &&
                                 (
                                     "Words per min = " + (currWord+1) + " Accuracy = "
-                                    + Math.round((correctNum/(currWord+1))*10000)/100 + "%"
+                                    + Math.round((correctNum/(currWord+1))*10000)/100 + "%" + "Note: If the last word is unfinished it will count towards wpm but will be consider incorrect"
                                 )}
 
                             </div>
