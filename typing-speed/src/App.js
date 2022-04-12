@@ -5,20 +5,22 @@ import './App.css';
 import {render} from "react-dom";
 
 const words_num = 150
-const time = 12
+const time = 60
 function App() {
 
   const [text, setText] = useState([])
   const [timer, setTimer] = useState([time])
-  const [timerClass, setTimerClass] = useState("timerG")
+  const [timerClass, setTimerClass] = useState("timerB")
   const [read, setRead] = useState( true)
   const [running, setRun] = useState( false)
-  const [incorrect, setIncorrect ] = useState(0)
+  const [correct, setCorrect ] = useState(Array(150))
+  const [finished, setFinished] = useState(false)
+  const [correctNum, setCorrectNum] = useState(0)
 
 
   const [currWord, setCurrWord] = useState(0);
-  const [charInWord, setCharInWord] = useState(-1)
-  const [charIn, setCharIn] = useState("")
+  const [charInWord, setCharInWord] = useState(0)
+
   const [wordIn, setWordIn] = useState("")
 
 
@@ -38,37 +40,47 @@ function App() {
 
   function startTest()
   {
-      setRead(false)
-      setRun(true)
-      setCursor()
-      setInterval(() =>
+      if(finished)
       {
-          setTimer((current) =>
-          {
-              if(current >0)
-              {
-                  if(current <11)
-                  {
-                      setTimerClass("timerRS")
-                  }
-                  else if (current <40)
-                  {
-                      setTimerClass("timerY")
-                  }
-                  return current-1;
-              }
-              else
-              {
-                  setRead(true)
-                  compare();
-                  setTimerClass("timerB")
-                  clearInterval()
-                  setRun(false)
-                  return "Finished"
-              }
+          setTimer(60)
+          setFinished(false)
+          setCorrect(0)
+          setWordIn("")
 
-          })
-      }, 1000)
+          setCharInWord(0)
+          setCurrWord(0)
+          setText(textGenerator())
+          document.querySelector("textarea").value=""
+          return;
+      }
+      else {
+          setRead(false)
+          setRun(true)
+          setCursor()
+          const interval = setInterval(() => {
+              setTimer((current) => {
+                  if (current > 0) {
+                      if (current < 11) {
+                          setTimerClass("timerRS")
+                      } else if (current < 40) {
+                          setTimerClass("timerY")
+                      }
+                      return current - 1;
+                  } else {
+                      setRead(true)
+
+                      setTimerClass("timerB")
+                      clearInterval(interval)
+                      setCorrectNum(wordPerMin())
+                      setRun(false)
+                      setFinished(true)
+
+                      return "Finished"
+                  }
+
+              })
+          }, 1000)
+      }
 
 
 
@@ -85,48 +97,95 @@ function App() {
 
   }
 
-  function inputHandler ({code, key})
+  function inputHandler ({keyCode, key})
   {
+      let userWord = wordIn.split(" ");
 
-      if(code === 8)
+      if(keyCode === 8)
       {
-          setCharInWord(charIn -1)
-          setCharIn("")
+
+          if(charInWord <= 0)
+          {
+
+              setCharInWord(userWord[currWord-1].length -1)
+              setCurrWord(currWord-1)
+          }
+          else
+          {
+
+              setCharInWord(charInWord -1)
+          }
+
 
       }
-      else if (key === " ")
+      else if (keyCode === 32)
       {
 
-         compare()
-         setWordIn("")
+
+
          setCurrWord(currWord +1)
-         setCharIn( -1)
+
+         setCharInWord(0)
       }
       else
       {
           setCharInWord(charInWord+1)
-          setCharIn(key)
+
       }
 
 
   }
-  function compare()
+
+
+
+  function charCompare( wordI, char,charI)
   {
-        const word = text[currWord]
-        const userWord = wordIn.split(" ");
+      const userWord = wordIn.split(" ");
 
-        if(word === userWord[userWord.length-1])
-        {
-            setvalid("true")
-            setIncorrect(incorrect+1)
-        }
-        else
-        {
-            setvalid("false")
-
-        }
+      if(wordI == currWord && charI == charInWord){
+          return"greenChar"
+      }
+      else if( wordI < currWord)
+      {
+          if(text[wordI] === userWord[wordI])
+          {
+              correct[wordI] = 1;
+              return "blueChar"
+          }
+          else
+          {
+              correct[wordI] = 0;
+              return "redChar"
+          }
+      }
+      else if(wordI == currWord && charI < charInWord )
+      {
+          if(userWord[wordI][charI] === text[wordI][charI])
+          {
+              return"blueChar"
+          }
+          else
+          {
+              return "redChar"
+          }
+      }
 
   }
+
+
+  function wordPerMin()
+  {
+      let count = 0;
+      for( let i = 0; i < correct.length; i++)
+      {
+          if(correct[i])
+          {
+              count++;
+          }
+      }
+      return  count;
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -138,8 +197,11 @@ function App() {
             <div className="content">
                 {text.map((word, i) => (
                     <>
-                        <span className="t">
-                         {word}
+                        <span>
+                         {word.split("").map((char, iChar) =>
+                             (
+                                 <span className={charCompare(i, char, iChar)}>{char}</span>
+                             ) )}
                        </span>
                        <span> </span>
                     </>
@@ -152,15 +214,31 @@ function App() {
         )
         }
         {!running && (
+            <div className="container">
+            {finished && (
 
-
-                    <div className="container">
-                        <div className="content">
-                            {incorrect === 0 &&
-                            ("Press Start When Ever Ready")}
-                            {incorrect !==0 &&
+                    <div className="content">
+                {text.map((word, i) => (
+                    <>
+                        <span>
+                         {word.split("").map((char, iChar) =>
                             (
-                                "Words per min = " + incorrect +wordIn
+                                 <span className={charCompare(i, char, iChar)}>{char}</span>
+                            ) )}
+                        </span>
+                        <span> </span>
+                    </>
+
+            ))}
+            </div>)}
+
+                        <div className="content">
+                            { correctNum === 0 &&
+                            ("Press Start When Ever Ready")}
+                            { correctNum !==0 &&
+                            (
+                                "Words per min = " + correctNum + " Accuracy = "
+                                + Math.round((correctNum/currWord)*10000)/100 + "%"
                             )}
                         </div>
                     </div>
@@ -177,7 +255,7 @@ function App() {
         </div>
 
       <div className="section">
-          <button className="startButton" onClick={startTest}>Start</button>
+          <button className="startButton" id="button" onClick={startTest}>Start</button>
 
       </div>
 
