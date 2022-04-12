@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+
 }
 
 .App-logo {
@@ -7,15 +8,30 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+html
+{
+  background-color: #282c34;
+}
+.content
+{
+  color: white;
+
+  text-align: left;
+  padding: 1em;
+
+
 }
 
+.container
+{
+
+  margin-left: 2em;
+  margin-right: 2em;
+  box-shadow:  3px 4px 5px 2px black;
+}
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+
+  min-height: 10em;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,15 +40,97 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+
+.timerG
+{
+  color: #18ff00;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.timerY
+{
+  color: #ffdd00;
+}
+.timerRS
+{
+  color: #ff0000;
+  animation: shake infinite 1s;
+}
+
+@keyframes shake {
+
+  0%{
+
+    transform: skewX(0deg) translateX(0);
   }
-  to {
-    transform: rotate(360deg);
+  25%{
+
+    transform: skewX(10deg) translateX(5px);
   }
+
+  50%{
+    transform: skewX(-10deg) translateX(-5px);
+  }
+  100%{
+    transform: skewX(0deg) translateX(0);
+  }
+
+}
+
+
+.timerB
+{
+  color:  #00c7ff;
+
+}
+
+
+
+
+.userInActive
+{
+
+  background-color: white;
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: 30px;
+  height: 175px;
+  border-radius: 5px;
+  border: 2px solid black;
+
+}
+.userInNotActive
+{
+
+  background-color: white;
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: 30px;
+  height: 175px;
+
+}
+textarea
+{
+  width: 100%;
+  height: 175px;
+  resize: none;
+}
+.startButton
+{
+  color:  #00c7ff;
+  height: 30px;
+  width: 110px;
+  background-color: #282c34;
+  box-shadow: none;
+  border: none;
+  font-size: 20px;
+  text-decoration: none;
+  margin-top: 40px;
+  border-radius: 17px;
+}
+.startButton:hover
+{
+  background-color:  #00c7ff;
+  color: black;
+
+  border-radius: 17px;
 }
