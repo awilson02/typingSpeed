@@ -16,7 +16,7 @@ function App() {
   const [running, setRun] = useState( false)
   const [correct, setCorrect ] = useState(Array(150))
   const [finished, setFinished] = useState(false)
-  const [correctNum, setCorrectNum] = useState(0)
+  const [correctNum, setCorrectNum] = useState(-1)
   const [inter, setInter] = useState("")
 
   const [currWord, setCurrWord] = useState(0);
@@ -49,7 +49,7 @@ function App() {
           setRun(false)
           setCorrect(Array(150))
           setFinished(false)
-          setCorrectNum(0)
+          setCorrectNum(-1)
           setCharInWord(0)
           setCurrWord(0)
           clearInterval(inter)
@@ -57,6 +57,7 @@ function App() {
           return;
       }
       else {
+          setCorrectNum(0)
           setText(textGenerator())
           setButton('Restart')
           setRead(false)
@@ -76,8 +77,9 @@ function App() {
                       }
                       return current - 1;
                   } else {
-                      setRead(true)
 
+
+                      setRead(true)
                       setTimerClass("timerB")
                       clearInterval(interval)
                       setCorrectNum(wordPerMin())
@@ -116,9 +118,24 @@ function App() {
 
           if(charInWord <= 0)
           {
+                if(userWord[currWord-1].length === text[currWord-1].length)
+                {
+                    setCharInWord(text[currWord-1].length -1)
+                    setCurrWord(currWord-1)
+                }
+                else if(userWord[currWord-1].length > text[currWord-1].length)
+                {
+                    setCharInWord
+                    (text[currWord-1].length  +(userWord[currWord-1].length - text[currWord-1].length ))
+                    setCurrWord(currWord-1)
+                }
+                else if(userWord[currWord-1].length < text[currWord-1].length)
+                {
+                    setCharInWord
+                    (text[currWord-1].length -(text[currWord-1].length -userWord[currWord-1].length))
+                    setCurrWord(currWord-1)
+                }
 
-              setCharInWord(userWord[currWord-1].length -1)
-              setCurrWord(currWord-1)
           }
           else
           {
@@ -202,72 +219,74 @@ function App() {
           <h1>Typing Speed Test </h1>
           <h2 className={timerClass}>{timer}</h2>
       </header>
-        {running  && (
-        <div className="container">
-            <div className="content">
-                {text.map((word, i) => (
-                    <>
-                        <span>
-                         {word.split("").map((char, iChar) =>
-                             (
-                                 <span className={charCompare(i, char, iChar)}>{char}</span>
-                             ) )}
-                       </span>
-                       <span> </span>
-                    </>
+            {running  && (
+            <div className="container">
+                <div className="content">
+                    {text.map((word, i) => (
+                        <>
+                            <span>
+                             {word.split("").map((char, iChar) =>
+                                 (
+                                     <span className={charCompare(i, char, iChar)}>{char}</span>
+                                 ) )}
+                           </span>
+                           <span> </span>
+                        </>
+
+                    ))}
+                </div>
+
+
+            </div>
+            )
+            }
+            {!running && (
+                <div className="container">
+                {finished && (
+
+                        <div className="content">
+                    {text.map((word, i) => (
+                        <>
+                            <span>
+                             {word.split("").map((char, iChar) =>
+                                (
+                                     <span className={charCompare(i, char, iChar)}>{char}</span>
+                                ) )}
+                            </span>
+                            <span> </span>
+                        </>
 
                 ))}
+                </div>)}
+
+                            <div className="content">
+                                { correctNum === -1 &&
+                                ("Press Start When Ever Ready") }
+                                { correctNum !==-1 &&
+                                (
+                                    "Words per min = " + (currWord+1) + " Accuracy = "
+                                    + Math.round((correctNum/(currWord+1))*10000)/100 + "%"
+                                )}
+
+                            </div>
+                        </div>
+
+            )}
+        <div className="section">
+            <button className="startButton" id="button" onClick={startTest}>{button}</button>
+
+        </div>
+            <div className="userInActive">
+               <form>
+                   <textarea spellCheck={"false"} readOnly={read} onKeyDown={inputHandler} onChange={(e) => setWordIn(e.target.value)}>
+
+                   </textarea>
+               </form>
+
+
             </div>
 
 
-        </div>
-        )
-        }
-        {!running && (
-            <div className="container">
-            {finished && (
-
-                    <div className="content">
-                {text.map((word, i) => (
-                    <>
-                        <span>
-                         {word.split("").map((char, iChar) =>
-                            (
-                                 <span className={charCompare(i, char, iChar)}>{char}</span>
-                            ) )}
-                        </span>
-                        <span> </span>
-                    </>
-
-            ))}
-            </div>)}
-
-                        <div className="content">
-                            { correctNum === 0 &&
-                            ("Press Start When Ever Ready")}
-                            { correctNum !==0 &&
-                            (
-                                "Words per min = " + correctNum + " Accuracy = "
-                                + Math.round((correctNum/(currWord+1))*10000)/100 + "%"
-                            )}
-                        </div>
-                    </div>
-
-        )}
-        <div className="userInActive">
-           <form>
-               <textarea onpaste="return false;" spellCheck={"false"} readOnly={read} onKeyDown={inputHandler} onChange={(e) => setWordIn(e.target.value)}>
-
-               </textarea>
-           </form>
-
-
-        </div>
-
-      <div className="section">
-          <button className="startButton" id="button" onClick={startTest}>{button}</button>
-
-      </div>
 
     </div>
   );

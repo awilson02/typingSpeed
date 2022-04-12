@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+
 
 }
 
@@ -12,6 +15,8 @@ html
 {
   background-color: #282c34;
 }
+
+
 .content
 {
   color: white;
@@ -28,6 +33,9 @@ html
   margin-left: 2em;
   margin-right: 2em;
   box-shadow:  3px 4px 5px 3px  black;
+  max-width: 1000px;
+  min-width: 500px;
+  align-self: center;
 }
 .App-header {
 
@@ -101,24 +109,31 @@ html
 .userInActive
 {
 
-  background-color: white;
+  background-color: #282c34;
+  color: #282c34;
   margin-left: 2em;
   margin-right: 2em;
   margin-top: 30px;
   height: 170px;
   border-radius: 5px;
-
+  max-width: 1000px;
+  min-width: 500px;
+  align-self: center;
+  border: #282c34;
+  outline-color: #282c34;
 
 
 }
 
 textarea
 {
+  background-color: #282c34;
   width: 100%;
   height: 170px;
   resize: none;
-  border-radius: 5px;
-  border: 2px solid black;
+  color: #282c34;
+  border: #282c34;
+  outline: none;
 }
 .startButton
 {
