@@ -20,9 +20,12 @@ html
 .content
 {
   color: white;
-
+ align-self: center;
   text-align: left;
+  display: block;
   padding: 1em;
+  margin-left:auto;
+  margin-right: auto;
 
 
 }
@@ -36,6 +39,11 @@ html
   max-width: 1000px;
   min-width: 500px;
   align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2em;
+
 }
 .App-header {
 
@@ -63,15 +71,21 @@ html
 }
 .timerG
 {
+  margin-right: 2em;
+  margin-left: 2em;
   color: #18ff00;
 }
 
 .timerY
 {
+  margin-right: 2em;
+  margin-left: 2em;
   color: #ffdd00;
 }
 .timerRS
 {
+  margin-right: 2em;
+  margin-left: 2em;
   color: #ff0000;
   animation: shake infinite 1s;
 }
@@ -100,17 +114,62 @@ html
 .timerB
 {
   color:  #00c7ff;
+  margin-right: 2em;
+  margin-left: 2em;
+}
 
+
+.mainContent
+{
+
+  align-self: center;
+  align-items: center;
 }
 
 
 
+.headerContainer
+{
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+}
 
+.resultDisabled
+{
+  visibility: hidden;
+}
+.results
+{
+  box-shadow:  3px 4px 5px 3px  black;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 3em;
+
+  padding-left: 1em;
+  padding-right: 1em;
+  border-radius: 1em;
+}
+
+h5
+{
+  margin-bottom: 0;
+  width: 9em;
+}
+.resultTextG
+{
+  color: #18ff00;
+}
+
+.resultTextY
+{
+  color: #ffdd00;;
+}
 .userInActive
 {
 
   background-color: #282c34;
-  color: transparent;
+  color: #282c34;
   margin-left: 2em;
   margin-right: 2em;
   margin-top: 30px;
@@ -124,6 +183,7 @@ html
 
 
 }
+
 
 textarea
 {
