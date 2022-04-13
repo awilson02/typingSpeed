@@ -57,6 +57,7 @@ function App() {
       setCorrectNum(-1)
       setCharInWord(0)
       setCurrWord(0)
+      setWordIn("")
       setResults("resultDisabled")
       clearInterval(inter)
       document.querySelector("textarea").value = ""
