@@ -161,10 +161,18 @@ function App() {
       //space bar move to next word
       else if (keyCode === 32)
       {
+             if(charInWord != 0)
+          {
+            setCurrWord(currWord +1)
+            setCharInWord(0)
+          }
+          else
+          {
 
-         setCurrWord(currWord +1)
-
-         setCharInWord(0)
+            let newIn = wordIn.substring(0, wordIn.length -1)
+            setWordIn(newIn)
+          }
+        
       }
       else
       {
@@ -290,7 +298,7 @@ function App() {
         </div>
             <div className="userInActive">
                <form>
-                   <textarea spellCheck={"false"} readOnly={read} onKeyDown={inputHandler} onChange={(e) => setWordIn(e.target.value)}>
+                   <textarea spellCheck={"false"} readOnly={read} onKeyDown={inputHandler} onChange={(e) => setWordIn(e.target.value)} value = {wordIn}>
 
                    </textarea>
                </form>
