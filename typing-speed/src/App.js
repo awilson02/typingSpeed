@@ -276,6 +276,13 @@ function App() {
       setResultTextA("resultTextY")
     }
     setAccuracy(true)
+
+    //color of wpm
+    if (correctNum > 38) {
+      setResultTextWPM("resultTextG")
+    } else {
+      setResultTextWPM("resultTextY")
+    }
     return "";
   }
 
