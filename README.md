@@ -11,7 +11,7 @@ npm run start
 
 ![alt text](https://github.com/awilson02/typingSpeed/blob/master/images/home.PNG)
 
-![alt text](https://github.com/awilson02/typingSpeed/blob/master/images/duringTest.PNG)
+![alt text](https://github.com/awilson02/typingSpeed/blob/master/images/duringTest.png)
 
 ![alt text](https://github.com/awilson02/typingSpeed/blob/master/images/results.PNG)
 
