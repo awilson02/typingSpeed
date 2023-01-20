@@ -16,6 +16,7 @@ function App() {
   const [read, setRead] = useState( true)
   const [running, setRun] = useState( false)
   const [correct, setCorrect ] = useState(Array(150))
+  const [userWords, setUserWords ] = useState(Array(150))
   const [finished, setFinished] = useState(false)
   const [correctNum, setCorrectNum] = useState(-1)
   const [inter, setInter] = useState("")
@@ -48,6 +49,7 @@ function App() {
     if (button === "Restart") {
       setButton("Start")
       setText([])
+      setUserWords(Array(150))
       setTimer("Ready")
       setTimerClass("timerB")
       setRead(true)
@@ -203,6 +205,7 @@ function App() {
     }
     else
     {
+
       setCharInWord(charInWord+1)
 
     }
@@ -304,6 +307,10 @@ function App() {
           </div>
 
         </header>
+        {running && (
+            <div className="UserContainer" id="currWord">
+          <label className="content" >{ wordIn.split(" ")[currWord]}</label>
+        </div>)}
         {running  && (
             <div className="container">
               <div className="content">
@@ -326,6 +333,7 @@ function App() {
         )
         }
         {!running && (
+
             <div className="container">
               {finished && (
 
@@ -352,6 +360,7 @@ function App() {
             </div>
 
         )}
+
         <div className="section">
           <button className="startButton" id="button" onClick={startTest}>{button}</button>
 
