@@ -302,7 +302,8 @@ function App() {
             <h2 className={timerClass}>{timer}</h2>
             <div className ={results}>
               <h5>Accuracy</h5>
-              <h3 className={resultTextA}> {Math.round((correctNum/(currWord))*10000)/100+"% "} {getAccuracy()}</h3>
+              {charInWord != 0 &&(    <h3 className={resultTextA}> {Math.round((correctNum/(currWord+1))*10000)/100+"% "} {getAccuracy()}</h3>)}
+              {charInWord == 0 &&(    <h3 className={resultTextA}> {Math.round((correctNum/(currWord))*10000)/100+"% "} {getAccuracy()}</h3>)}
             </div>
           </div>
 
